@@ -1,5 +1,7 @@
 import My_GPIO as gpio
 
-# gpio.runningPattern (64 + 8 + 2, 0)
+gpio.StartRun()
 
-# gpio.ChangingBright ([], 2)
+gpio.ChangingBright (0)
+
+gpio.FinishRun()

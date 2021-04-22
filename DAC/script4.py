@@ -1,26 +1,29 @@
-# import My_GPIO as mgp
+import My_GPIO as mgp
 from scipy.io import wavfile
-import wave
-import time
+import numpy as np
 
-# samplerate, data = wavfile.read ("ssound.wav")
-# print (samplerate)
-wav = wave.open("sound.wav", mode="r")
-(nchannels, sampwidth, framerate, nframes, comptype, compname) = wav.getparams()
-content = wav.readframes(nframes)
+samplerate, data = wavfile.read ("ssound.wav")
 
-print (framerate)
+sleep = 1 / 44100
+sound = np.array (data)
+sound = np.int32 (sound[:,0])
 
-# mgp.StartRun()
+mgp.StartRun()
 
-for i_music in content:
-    # mgp.num2dac (i_music)
-    print (i_music)
-#     # mgp.num2dac ((32768 - i_music[1]) % 256)
-#     # print ((32768 - i_music[0]) // 256, (32768 - i_music[1]) // 256)
-    # time.sleep (1 / framerate)
+print ("Wait...")
 
-# mgp.FinishRun()
+for i_music in range (len (sound)):
+    sound[i_music] = (sound[i_music] + 32768) // 256
+
+print ("Playing!")
+
+for i_music in sound:
+    mgp.num2dac (i_music)
+    mgp.time.sleep (0)
+    mgp.time.sleep (0)
+    mgp.time.sleep (0)
+
+mgp.FinishRun()
 
 # data1 = [i[0] for i in data]
 # data2 = [i[1] for i in data]

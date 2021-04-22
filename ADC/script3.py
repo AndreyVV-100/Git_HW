@@ -1,6 +1,6 @@
-# import My_GPIO as mgp
+import My_GPIO as mgp
 
-# mgp.StartRun()
+mgp.StartRun()
 
 max_voltage = 3.3
 
@@ -12,19 +12,17 @@ while (True):
     while (r - l > 1):
 
         num = (l + r) // 2
-        print (num)
-        # mgp.num2dac (num)
+        mgp.num2dac (num)
 
-        if (input() == "1"):
-        # if (mgp.GetStatus()):
-            r = num
+        if (mgp.GetStatus()):
+            l = num
             continue
 
         else:
-            l = num
+            r = num
 
     print ("Digital value: {num}, Analog value: {volt} V".format 
-                           (num = r, volt = round (max_voltage * num / 255, 2)))
+                           (num = r, volt = round (max_voltage * r / 255, 2)))
     # mgp.time.sleep (0.5)
 
-# mgp.FinishRun()
+mgp.FinishRun()

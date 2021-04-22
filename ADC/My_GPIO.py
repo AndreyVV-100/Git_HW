@@ -1,20 +1,27 @@
 import RPi.GPIO as GPIO
 import time
 
-# LEDS = [21, 20, 16, 12, 7, 8, 25, 24]
-LEDS = [26, 19, 13, 6, 5, 11, 9, 10]
+LEDS = [21, 20, 16, 12, 7, 8, 25, 24]
+DAC  = [26, 19, 13, 6, 5, 11, 9, 10]
 
-port_in = 228
+port_in = 4
+go_volts = 17
 
 def StartRun():
     GPIO.setmode (GPIO.BCM)
     GPIO.setup (LEDS, GPIO.OUT)
+    GPIO.setup (DAC,  GPIO.OUT)
+    GPIO.setup (go_volts,  GPIO.OUT)
     GPIO.setup (port_in, GPIO.IN)
+    GPIO.output (go_volts, 1)
 
 def FinishRun():
     GPIO.output (LEDS, 0)
+    GPIO.output (go_volts, 0)
     GPIO.cleanup (LEDS)
+    GPIO.cleanup (DAC)
     GPIO.cleanup (port_in)
+    GPIO.cleanup (go_volts)
 
 # -------------------------------------------------------------
 
@@ -67,4 +74,17 @@ def num2dac (num, mode = 1):
 # -------------------------------------------------------------
 
 def GetStatus():
-    return GPIO.input (port_in)
+    time.sleep (0.001)
+    return GPIO.input (port_in) == GPIO.HIGH
+
+# -------------------------------------------------------------
+
+def VolumeBar (num):
+
+    GPIO.output (LEDS, 0)
+    num = (num + 16) // 32
+    for i_LED in range (len (LEDS)):
+        if (num == 0):
+            return
+        GPIO.output (LEDS[7 - i_LED], 1)
+        num -= 1

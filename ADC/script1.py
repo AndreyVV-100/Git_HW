@@ -1,8 +1,8 @@
-# import My_GPIO as mgp
+import My_GPIO as mgp
 
 max_voltage = 3.3
 
-# mgp.StartRun()
+mgp.StartRun()
 
 while (True):
 
@@ -23,7 +23,8 @@ while (True):
         print ("Wrong input!")
         continue
 
-    # mgp.num2dac (num)
+    mgp.num2dac (num)
     print ("{num} = {volt}V".format (num = num, volt = round (max_voltage * num / 255, 2)))
+    print (mgp.GetStatus())
 
-# mgp.FinishRun()
+mgp.FinishRun()
